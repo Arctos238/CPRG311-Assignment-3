@@ -1,6 +1,7 @@
 package utilities;
 
 import java.util.NoSuchElementException;
+import java.util.Stack;
 
 import exceptions.TreeException;
 
@@ -27,7 +28,6 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
 		if (root == null) {
 			throw new TreeException();
 		}
-		
 
 		return this.root;
 	}
@@ -37,7 +37,7 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
 		if (root == null) {
 			return 0;
 		}
-		
+
 		return root.findDepth();
 	}
 
@@ -93,7 +93,7 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
 		return search(toFind, root);
 	}
 
-	public BSTreeNode<E> search(E toFind, BSTreeNode<E> currentNode) throws TreeException {
+	private BSTreeNode<E> search(E toFind, BSTreeNode<E> currentNode) throws TreeException {
 		if (currentNode == null) {
 			return null;
 		}
@@ -118,7 +118,6 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
 		} else if (size > 0 && contains(newEntry, root)) {
 			return false;
 		}
-		
 
 		root = add(root, newEntry);
 		size++;
@@ -145,68 +144,154 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
 
 	@Override
 	public Iterator<E> inorderIterator() {
-		return new InorderIterator();
+		return new InorderIterator(this.root);
 	}
 
 	@Override
 	public Iterator<E> preorderIterator() {
-		return new PreorderIterator();
+		return new PreorderIterator(this.root);
 	}
 
 	@Override
 	public Iterator<E> postorderIterator() {
-		return new PostorderIterator();
+		return new PostorderIterator(this.root);
 	}
 
 	private class InorderIterator implements Iterator<E> {
+		private Stack<BSTreeNode<E>> travelStack;
+
+		InorderIterator(BSTreeNode<E> root) {
+			travelStack = new Stack<BSTreeNode<E>>();
+
+			addToStack(root);
+		}
+
+		private void addToStack(BSTreeNode<E> node) {
+			if (node != null) {
+				if (node.getRight() != null) {
+					addToStack(node.getRight());
+				}
+
+				travelStack.add(node);
+
+				if (node.getLeft() != null) {
+					addToStack(node.getLeft());
+				}
+			}
+		}
 
 		@Override
 		public boolean hasNext() {
-
-			return false;
+			return !travelStack.isEmpty();
 		}
 
 		@Override
 		public E next() throws NoSuchElementException {
+			if (!hasNext()) {
+				throw new NoSuchElementException();
+			}
 
-			return null;
+			return travelStack.pop().getElement();
 		}
-		// TODO InorderIterator
 
 	}
 
 	private class PreorderIterator implements Iterator<E> {
+		private Stack<BSTreeNode<E>> travelStack;
+
+		PreorderIterator(BSTreeNode<E> root) {
+			travelStack = new Stack<BSTreeNode<E>>();
+
+			addToStack(root);
+		}
+
+		private void addToStack(BSTreeNode<E> node) {
+			if (node != null) {
+				if (node.hasRight()) {
+					addToStack(node.getRight());
+				}
+
+				if (node.hasLeft()) {
+					addToStack(node.getLeft());
+				}
+
+				travelStack.add(node);
+
+			}
+		}
 
 		@Override
 		public boolean hasNext() {
-
-			return false;
+			return !travelStack.isEmpty();
 		}
 
 		@Override
 		public E next() throws NoSuchElementException {
+			if (!hasNext()) {
+				throw new NoSuchElementException();
+			}
 
-			return null;
+			return travelStack.pop().getElement();
 		}
 
 	}
 
 	private class PostorderIterator implements Iterator<E> {
+		private Stack<BSTreeNode<E>> travelStack;
+
+		PostorderIterator(BSTreeNode<E> root) {
+
+			travelStack = new Stack<BSTreeNode<E>>();
+
+			addToStack(root);
+		}
+
+		private void addToStack(BSTreeNode<E> node) {
+			if (node != null) {
+				travelStack.add(node);
+
+				if (node.getRight() != null) {
+					addToStack(node.getRight());
+				}
+
+				if (node.getLeft() != null) {
+					addToStack(node.getLeft());
+				}
+			}
+		}
 
 		@Override
 		public boolean hasNext() {
-
-			return false;
+			return !travelStack.isEmpty();
 		}
 
 		@Override
 		public E next() throws NoSuchElementException {
+			if (!hasNext()) {
+				throw new NoSuchElementException();
+			}
 
-			return null;
+			return travelStack.pop().getElement();
 		}
 	}
 
 	public static void main(String[] args) {
-	
+		BSTree<Integer> tree = new BSTree<Integer>();
+
+		tree.add(8);
+		tree.add(3);
+		tree.add(10);
+		tree.add(1);
+		tree.add(6);
+		tree.add(14);
+		tree.add(4);
+		tree.add(7);
+		tree.add(13);
+
+		Iterator<Integer> it = tree.postorderIterator();
+
+		while (it.hasNext()) {
+			System.out.println(it.next());
+		}
 	}
 }

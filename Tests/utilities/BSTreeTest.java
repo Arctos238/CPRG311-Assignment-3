@@ -12,18 +12,18 @@ import org.junit.jupiter.api.Test;
 import exceptions.TreeException;
 
 /**
- * @author Arcto
+ * @author J.Pointer
  *
  */
 class BSTreeTest {
-	BSTree<String> tree;
+	BSTree<Integer> tree;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		tree = new BSTree<String>();
+		tree = new BSTree<Integer>();
 	}
 
 	/**
@@ -32,20 +32,20 @@ class BSTreeTest {
 	@AfterEach
 	void tearDown() throws Exception {
 	}
-	
+
 	/**
 	 * Test method for {@link utilities.BSTree#BSTree()}.
 	 */
 	@Test
 	void testBSTree() {
-		String expectedValue = "A";
-		BSTree<String> tree = new BSTree<String>("A");
-		
+		int expectedValue = 10;
+		tree = new BSTree<Integer>(expectedValue);
+
 		try {
 			assertEquals(tree.getRoot().getElement(), expectedValue);
 		} catch (TreeException e) {
 			fail("Didn't get created successfully");
-		}	
+		}
 	}
 
 	/**
@@ -53,7 +53,7 @@ class BSTreeTest {
 	 */
 	@Test
 	void testBSTreeException() {
-		BSTree<String> tree = new BSTree<String>();
+		BSTree<Integer> tree = new BSTree<Integer>();
 
 		try {
 			tree.getRoot();
@@ -68,7 +68,29 @@ class BSTreeTest {
 	 */
 	@Test
 	void testGetRoot() {
-		fail("Not yet implemented");
+		BSTree<Integer> tree = new BSTree<Integer>();
+
+		try {
+			tree.getRoot();
+			fail("TreeException did not throw");
+		} catch (TreeException e) {
+			assertTrue(true);
+		}
+	}
+
+	/**
+	 * Test method for {@link utilities.BSTree#getRoot()}.
+	 */
+	@Test
+	void testGetRootTreeException() {
+		int expectedValue = 10;
+		BSTree<Integer> tree = new BSTree<Integer>(expectedValue);
+
+		try {
+			assertEquals(tree.getRoot().getElement(), expectedValue);
+		} catch (TreeException e) {
+			fail("Didn't get created successfully");
+		}
 	}
 
 	/**
@@ -76,7 +98,19 @@ class BSTreeTest {
 	 */
 	@Test
 	void testGetHeight() {
-		fail("Not yet implemented");
+		int expectedValue = 4;
+
+		tree.add(8);
+		tree.add(3);
+		tree.add(10);
+		tree.add(1);
+		tree.add(6);
+		tree.add(14);
+		tree.add(4);
+		tree.add(7);
+		tree.add(13);
+
+		assertEquals(tree.getHeight(), expectedValue);
 	}
 
 	/**
@@ -84,7 +118,15 @@ class BSTreeTest {
 	 */
 	@Test
 	void testSize() {
-		fail("Not yet implemented");
+		int expectedValue = 4;
+
+		tree.add(8);
+		tree.add(3);
+		tree.add(10);
+		tree.add(1);
+
+		assertNotEquals(tree.size(), 100);
+		assertEquals(tree.size(), expectedValue);
 	}
 
 	/**
@@ -92,7 +134,20 @@ class BSTreeTest {
 	 */
 	@Test
 	void testIsEmpty() {
-		fail("Not yet implemented");
+		assertTrue(tree.isEmpty());
+	}
+
+	/**
+	 * Test method for {@link utilities.BSTree#isEmpty()}.
+	 */
+	@Test
+	void testIsNotEmpty() {
+		tree.add(8);
+		tree.add(3);
+		tree.add(10);
+		tree.add(1);
+
+		assertFalse(tree.isEmpty());
 	}
 
 	/**
@@ -100,7 +155,22 @@ class BSTreeTest {
 	 */
 	@Test
 	void testClear() {
-		fail("Not yet implemented");
+		int expectedValue = 0;
+
+		assertTrue(tree.isEmpty());
+
+		tree.add(8);
+		tree.add(3);
+		tree.add(10);
+		tree.add(1);
+
+		assertFalse(tree.isEmpty());
+
+		tree.clear();
+
+		assertEquals(tree.size(), expectedValue);
+		assertTrue(tree.isEmpty());
+		assertEquals(tree.getHeight(), 0);
 	}
 
 	/**
@@ -108,7 +178,35 @@ class BSTreeTest {
 	 */
 	@Test
 	void testContains() {
-		fail("Not yet implemented");
+		int expectedValueOne = 8;
+		int expectedValueTwo = 25;
+		int notExpected = 654;
+
+		tree.add(expectedValueOne);
+		tree.add(3);
+		tree.add(10);
+		tree.add(expectedValueTwo);
+
+		try {
+			assertTrue(tree.contains(expectedValueOne));
+			assertTrue(tree.contains(expectedValueTwo));
+			assertFalse(tree.contains(notExpected));
+		} catch (TreeException e) {
+			fail("Exception raised when tree wasn't empty");
+		}
+	}
+
+	/**
+	 * Test method for {@link utilities.BSTree#contains(java.lang.Comparable)}.
+	 */
+	@Test
+	void testContainsTreeException() {
+		try {
+			tree.contains(52);
+			fail("Tree Exception didn't throw");
+		} catch (TreeException e) {
+			assertTrue(true);
+		}
 	}
 
 	/**
@@ -116,16 +214,34 @@ class BSTreeTest {
 	 */
 	@Test
 	void testSearchE() {
-		fail("Not yet implemented");
+		int expectedValueOne = 8;
+		int expectedValueTwo = 25;
+
+		tree.add(expectedValueOne);
+		tree.add(3);
+		tree.add(10);
+		tree.add(expectedValueTwo);
+
+		try {
+			assertEquals(tree.search(expectedValueOne).getElement(), expectedValueOne);
+			assertEquals(tree.search(expectedValueTwo).getElement(), expectedValueTwo);
+			assertEquals(tree.search(65), null);
+		} catch (TreeException e) {
+			fail("Exception raised when tree wasn't empty");
+		}
 	}
 
 	/**
-	 * Test method for
-	 * {@link utilities.BSTree#search(java.lang.Comparable, utilities.BSTreeNode)}.
+	 * Test method for {@link utilities.BSTree#contains(java.lang.Comparable)}.
 	 */
 	@Test
-	void testSearchEBSTreeNodeOfE() {
-		fail("Not yet implemented");
+	void testSearchETreeException() {
+		try {
+			tree.search(52);
+			fail("Tree Exception didn't throw");
+		} catch (TreeException e) {
+			assertTrue(true);
+		}
 	}
 
 	/**
@@ -133,7 +249,29 @@ class BSTreeTest {
 	 */
 	@Test
 	void testAdd() {
-		fail("Not yet implemented");
+		int expectedValueOne = 3;
+
+		tree.add(expectedValueOne);
+		tree.add(10);
+
+		try {
+			assertEquals(tree.getRoot().getElement(), expectedValueOne);
+		} catch (TreeException e) {
+			fail("TreeException thrown");
+		}
+	}
+
+	/**
+	 * Test method for {@link utilities.BSTree#add(java.lang.Comparable)}.
+	 */
+	@Test
+	void testAddNullPointerException() {
+		try {
+			tree.add(null);
+			fail("NullPointerException should throw");
+		} catch (NullPointerException e) {
+			assertTrue(true);
+		}
 	}
 
 	/**
@@ -141,7 +279,25 @@ class BSTreeTest {
 	 */
 	@Test
 	void testInorderIterator() {
-		fail("Not yet implemented");
+		int[] nums = { 8, 3, 10, 1, 6, 14, 4, 7, 13 };
+
+		for (int i : nums) {
+			tree.add(i);
+		}
+		
+		int[] correctOutput = {1, 3, 4, 6, 7, 8, 10, 13, 14};
+		
+		Iterator<Integer> it = tree.inorderIterator();
+
+		for(int i : correctOutput) {
+			int x = it.next();
+			if(i != x) {
+				System.out.println(x);
+				fail("Not correct order");
+			}
+		}
+		
+		assertTrue(true);
 	}
 
 	/**
@@ -149,7 +305,23 @@ class BSTreeTest {
 	 */
 	@Test
 	void testPreorderIterator() {
-		fail("Not yet implemented");
+		int[] nums = { 8, 3, 10, 1, 6, 14, 4, 7, 13 };
+
+		for (int i : nums) {
+			tree.add(i);
+		}
+		
+		int[] correctOutput = {8, 3, 1, 6, 4, 7, 10, 14, 13};
+		
+		Iterator<Integer> it = tree.preorderIterator();
+
+		for(int i : correctOutput) {
+			if(i != it.next()) {
+				fail("Not correct order");
+			}
+		}
+		
+		assertTrue(true);
 	}
 
 	/**
@@ -157,15 +329,23 @@ class BSTreeTest {
 	 */
 	@Test
 	void testPostorderIterator() {
-		fail("Not yet implemented");
-	}
+		int[] nums = { 8, 3, 10, 1, 6, 14, 4, 7, 13 };
 
-	/**
-	 * Test method for {@link utilities.BSTree#main(java.lang.String[])}.
-	 */
-	@Test
-	void testMain() {
-		fail("Not yet implemented");
+		for (int i : nums) {
+			tree.add(i);
+		}
+		
+		int[] correctOutput = {1, 4, 7, 6, 3, 13, 14, 10, 8};
+		
+		Iterator<Integer> it = tree.postorderIterator();
+
+		for(int i : correctOutput) {
+			if(i != it.next()) {
+				fail("Not correct order");
+			}
+		}
+		
+		assertTrue(true);
 	}
 
 }
