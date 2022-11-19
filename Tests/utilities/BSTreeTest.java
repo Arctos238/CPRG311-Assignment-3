@@ -45,9 +45,7 @@ class BSTreeTest {
 			assertEquals(tree.getRoot().getElement(), expectedValue);
 		} catch (TreeException e) {
 			fail("Didn't get created successfully");
-		}
-		
-		
+		}	
 	}
 
 	/**
@@ -63,14 +61,6 @@ class BSTreeTest {
 		} catch (TreeException e) {
 			assertTrue(true);
 		}
-	}
-
-	/**
-	 * Test method for {@link utilities.BSTree#BSTree(java.lang.Comparable)}.
-	 */
-	@Test
-	void testBSTreeE() {
-		fail("Not yet implemented");
 	}
 
 	/**
