@@ -11,22 +11,22 @@ public class Word implements Serializable, Comparable<Word> {
 	 * 
 	 */
 
-	private String word;
+	private String stringWord;
 	private long lineNumber;
 	private long wordCount;
 	
-	public Word(String word, long lineNumber) {
-		this.word = word;
+	public Word(String stringWord, long lineNumber) {
+		this.stringWord = stringWord;
 		this.lineNumber = lineNumber;
 		wordCount++;
 	}
 	
-	public String getWord() {
-		return word;
+	public String getStringWord() {
+		return stringWord;
 	}
 
-	public void setWord(String word) {
-		this.word = word;
+	public void setWord(String stringWord) {
+		this.stringWord = stringWord;
 	}
 
 	public long getLineNumber() {
@@ -53,7 +53,7 @@ public class Word implements Serializable, Comparable<Word> {
 	
 	@Override
 	public int compareTo(Word toCompare) {
-		return this.word.compareTo(toCompare.getWord());
+		return this.stringWord.compareTo(toCompare.getStringWord());
 	}
 	
 }
