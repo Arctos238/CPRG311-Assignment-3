@@ -6,13 +6,13 @@ import java.util.Stack;
 import exceptions.TreeException;
 
 public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
-	private BSTreeNode<E> root;
-	private int size;
-
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3390135895504184631L;
+	private static final long serialVersionUID = 5028340490565720457L;
+	private BSTreeNode<E> root;
+	private int size;
 
 	public BSTree() {
 		size = 0;
@@ -53,7 +53,7 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
 
 	@Override
 	public void clear() {
-		this.root = null;
+		this.root = null; 
 		this.size = 0;
 
 	}
