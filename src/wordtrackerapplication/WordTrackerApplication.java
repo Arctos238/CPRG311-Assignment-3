@@ -33,7 +33,7 @@ public class WordTrackerApplication {
 				wordBSTree = ioManager.getTree();
 			}
 			
-			Iterator<Word> it = wordBSTree.inorderIterator(); 
+			Iterator<Word> it = wordBSTree.preorderIterator(); 
 			
 			while(it.hasNext()) {
 				Word word = it.next();

@@ -85,12 +85,10 @@ public class IOManager {
 			objectIn = new ObjectInputStream(fileIn);
 			
 			ArrayList<Word> preOrderArrayList = preOrderGenerator(objectIn);
-
+			
 			ArrayList<Word> inOrderArrayList = inOrderGenerator(objectIn);
 
-			BSTreeNode<Word> root = rebuildTree(preOrderArrayList, inOrderArrayList, 0, inOrderArrayList.size() - 1);
-			
-			BSTree<Word> wordTree = new BSTree<Word>(root);
+			BSTree<Word> wordTree = rebuildTree(preOrderArrayList, inOrderArrayList);
 			
 			return wordTree;
 		} catch (FileNotFoundException e) {
@@ -98,13 +96,28 @@ public class IOManager {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		return null;
 	}
 
-	private BSTreeNode<Word> rebuildTree(ArrayList<Word> preOrderArrayList, ArrayList<Word> inOrderArrayList, int inOrderPos, int inEnd) {
-		// TODO Auto-generated method stub
+	private BSTree<Word> rebuildTree(ArrayList<Word> preOrderArrayList, ArrayList<Word> inOrderArrayList) {
+		Word rootElement = preOrderArrayList.get(0);
 		
-		return null;
+		BSTree<Word> tree = new BSTree<Word>(rootElement);
+		
+		int indexOfMid = inOrderArrayList.indexOf(rootElement);
+		
+		for(int i = indexOfMid; i > 1; i--) {
+			tree.add(preOrderArrayList.get(i));
+		}
+		
+		for(int i = indexOfMid + 1; i < inOrderArrayList.size(); i++) {
+			tree.add(preOrderArrayList.get(i));
+		}
+		
+		System.out.println("Break");
+		
+		return tree;
 	}
 
 	/**
@@ -116,7 +129,15 @@ public class IOManager {
 		ArrayList<Word> preOrderArrayList = new ArrayList<>();
 		
 		try {
-			objectIn.readChar();
+			objectIn.read();
+		} catch (IOException e1) {
+			
+			e1.printStackTrace();
+		}
+		
+		
+		try {
+			
 			while (true) {
 				Word word = (Word) objectIn.readObject();
 				preOrderArrayList.add(word);
@@ -158,9 +179,7 @@ public class IOManager {
 				newLineNotFound = false;
 			}
 		}
-
+		
 		return preOrderArrayList;
 	}
-	
-	
 }
