@@ -4,6 +4,7 @@ import java.util.NoSuchElementException;
 import java.util.Stack;
 
 import exceptions.TreeException;
+import problemdomain.Word;
 
 public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
 	
@@ -21,6 +22,11 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT<E> {
 
 	public BSTree(E element) {
 		add(element);
+	}
+
+	public BSTree(BSTreeNode<E> root) {
+		size = 1;
+		this.root = root;
 	}
 
 	@Override

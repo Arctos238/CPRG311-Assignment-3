@@ -1,4 +1,4 @@
-package manager;
+package managers;
 
 import java.io.*;
 import java.util.*;
@@ -88,7 +88,9 @@ public class IOManager {
 
 			ArrayList<Word> inOrderArrayList = inOrderGenerator(objectIn);
 
-			BSTree<Word> wordTree = new BSTree<Word>();
+			BSTreeNode<Word> root = rebuildTree(preOrderArrayList, inOrderArrayList, 0, inOrderArrayList.size() - 1);
+			
+			BSTree<Word> wordTree = new BSTree<Word>(root);
 			
 			return wordTree;
 		} catch (FileNotFoundException e) {
@@ -96,6 +98,12 @@ public class IOManager {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return null;
+	}
+
+	private BSTreeNode<Word> rebuildTree(ArrayList<Word> preOrderArrayList, ArrayList<Word> inOrderArrayList, int inOrderPos, int inEnd) {
+		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -109,10 +117,6 @@ public class IOManager {
 		
 		try {
 			objectIn.readChar();
-		} catch (IOException e1) {
-		}
-		
-		try {
 			while (true) {
 				Word word = (Word) objectIn.readObject();
 				preOrderArrayList.add(word);

@@ -1,5 +1,6 @@
-package manager;
+package managers;
 
+import java.io.File;
 import java.util.Scanner;
 
 import exceptions.TreeException;
@@ -8,9 +9,11 @@ import utilities.BSTree;
 import utilities.BSTreeNode;
 
 public class WordTreeManager {
-	public BSTree<Word> createNewTree(Scanner fileIn) {
+	public BSTree<Word> createNewTree(Scanner fileIn, String fileName) {
 		BSTree<Word> wordBSTree = new BSTree<Word>();
-
+		
+		fileName = new File(fileName).getName();
+		
 		int lineNumber = 1;
 		while (fileIn.hasNextLine()) {
 			String[] wordsOnLine = fileIn.nextLine().split(" ");
@@ -19,7 +22,7 @@ public class WordTreeManager {
 				String stringWord = wordsOnLine[i].replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
 				
 				if(stringWord.length() > 0) {
-					Word word = new Word(stringWord, lineNumber);
+					Word word = new Word(stringWord, fileName, lineNumber);
 
 					if (wordBSTree.size() != 0) {
 						try {
