@@ -35,8 +35,6 @@ public class IOManager {
 	 */
 	public boolean checkForTreeFile() {
 		File file = new File(TREE_FILE_LOCATION);
-		String path = file.getName();
-		System.out.println(path);
 		return file.exists();
 	}
 
@@ -115,8 +113,6 @@ public class IOManager {
 			tree.add(preOrderArrayList.get(i));
 		}
 		
-		System.out.println("Break");
-		
 		return tree;
 	}
 
@@ -143,7 +139,6 @@ public class IOManager {
 				preOrderArrayList.add(word);
 			}
 		} catch (EOFException e) {
-			System.out.println("The tree file has been read, please wait for tree to be generated.");
 		} catch (ClassNotFoundException e) {
 			System.out.println("inOrderGenerator found a ClassNotFoundException");
 			e.printStackTrace();
@@ -181,5 +176,66 @@ public class IOManager {
 		}
 		
 		return preOrderArrayList;
+	}
+
+	public void printWordWithFileName(BSTree<Word> wordBSTree, String outputFileName) {
+		try {
+			PrintWriter printWriter = new PrintWriter(new File(outputFileName));
+			
+			Iterator<Word> it = wordBSTree.inorderIterator();
+
+			while (it.hasNext()) {
+				Word word = it.next();
+				printWriter.write(
+						"Word: " + word.getStringWord() + ". First seen at file Location: " + word.getFileName() + ".");
+			}
+			
+			printWriter.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+	public void printWordWithLines(BSTree<Word> wordBSTree, String outputFileName) {
+		try {
+			PrintWriter printWriter = new PrintWriter(new File(outputFileName));
+			
+			Iterator<Word> it = wordBSTree.inorderIterator();
+
+			while (it.hasNext()) {
+				Word word = it.next();
+				printWriter.write("Word: " + word.getStringWord() + ". First Seen at line number " + word.getLineNumber()
+						+ ". First seen at file Location: " + word.getFileName() + ".");
+			}
+			
+			printWriter.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+	public void printWordWithFrequency(BSTree<Word> wordBSTree, String outputFileName) {
+		try {
+			PrintWriter printWriter = new PrintWriter(new File(outputFileName));
+			
+			Iterator<Word> it = wordBSTree.inorderIterator();
+
+			while (it.hasNext()) {
+				Word word = it.next();
+				printWriter.write("Word: " + word.getStringWord() + ". First Seen at line number " + word.getLineNumber()
+						+ ". Word Count: " + word.getWordCount() + ". First seen at file Location: " + word.getFileName()
+						+ ".\n");
+			}
+			
+			
+			printWriter.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

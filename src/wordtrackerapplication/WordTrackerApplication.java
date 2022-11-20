@@ -13,7 +13,7 @@ public class WordTrackerApplication {
 	public static void main(String[] args) {		
 		try {
 			String outputFileName = null;
-			IOManager ioManager = new IOManager();
+			IOManager iOManager = new IOManager();
 			WordTreeManager wordTreeManager = new WordTreeManager();
 			BSTree<Word> wordBSTree = null;
 			String inputFileName = args[0];
@@ -24,33 +24,39 @@ public class WordTrackerApplication {
 				outputFileName = args[2];
 			}
 			
-			Scanner fileIn = ioManager.readFile(inputFileName);
+			Scanner fileIn = iOManager.readFile(inputFileName);
 			
-			if(!ioManager.checkForTreeFile()) {
+			if(!iOManager.checkForTreeFile()) {
 				wordBSTree = wordTreeManager.createNewTree(fileIn, inputFileName);
-				ioManager.saveTree(wordBSTree);
+				iOManager.saveTree(wordBSTree);
 			} else {
-				wordBSTree = ioManager.getTree();
+				wordBSTree = iOManager.getTree();
+				wordTreeManager.addToTree(wordBSTree, fileIn, inputFileName);
+				iOManager.saveTree(wordBSTree);
 			}
 			
-			Iterator<Word> it = wordBSTree.preorderIterator(); 
-			
-			while(it.hasNext()) {
-				Word word = it.next();
-				System.out.println("Word: " + word.getStringWord() + ". First Seen at line number " + word.getLineNumber() + 
-						". Word Count: " + word.getWordCount() + ". First seen at file Location: " + word.getFileName() + ".");
-			}
-			
-			switch(outputFormat)  {
-				case 'f':
-					// TODO
-					break;
-				case 'l':
-					// TODO
-					break;
-				case 'o':
-					// TODO
-					break;
+			switch (outputFormat) {
+			case 'f':
+				if (outputFileName != null) {
+					iOManager.printWordWithFileName(wordBSTree, outputFileName);
+				} else {
+					wordTreeManager.printWordWithFileName(wordBSTree);
+				}
+				break;
+			case 'l':
+				if (outputFileName != null) {
+					iOManager.printWordWithLines(wordBSTree, outputFileName);
+				} else {
+					wordTreeManager.printWordWithLines(wordBSTree);
+				}
+				break;
+			case 'o':
+				if(outputFileName != null) {
+					iOManager.printWordWithFrequency(wordBSTree, outputFileName);
+				} else {
+					wordTreeManager.printWordWithFrequency(wordBSTree);
+				}
+				break;
 			}
 			
 		} catch (FileNotFoundException e) {
