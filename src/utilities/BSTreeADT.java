@@ -7,15 +7,18 @@ import java.io.*;
 
 import exceptions.TreeException;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Interface BSTreeADT.
+ *
  * @author dwatson, kitty
  * @version 1.1
  * Created: Nov 27, 2008
  * Updated: Nov 23, 2019
- *
+ * 
  * Class Description: Abstract data type specification for a simple
  * Binary Tree implementation.
- * 
+ * @param <E> the element type
  */
 public interface BSTreeADT<E extends Comparable<? super E>> extends Serializable
 {

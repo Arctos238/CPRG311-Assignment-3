@@ -9,7 +9,19 @@ import utilities.BSTree;
 import utilities.BSTreeNode;
 import utilities.Iterator;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class WordTreeManager.
+ */
 public class WordTreeManager {
+	
+	/**
+	 * Creates the new tree.
+	 *
+	 * @param fileIn the file in
+	 * @param fileName the file name
+	 * @return the BS tree
+	 */
 	public BSTree<Word> createNewTree(Scanner fileIn, String fileName) {
 		BSTree<Word> wordBSTree = new BSTree<Word>();
 
@@ -57,6 +69,14 @@ public class WordTreeManager {
 		return wordBSTree;
 	}
 
+	/**
+	 * Adds the to the existing tree
+	 *
+	 * @param wordBSTree the word BS tree
+	 * @param fileIn the file in
+	 * @param fileName the file name
+	 * @return the BS tree
+	 */
 	public BSTree<Word> addToTree(BSTree<Word> wordBSTree, Scanner fileIn, String fileName) {
 		fileName = new File(fileName).getName();
 
@@ -102,6 +122,11 @@ public class WordTreeManager {
 		return wordBSTree;
 	}
 
+	/**
+	 * Prints the word with file name.
+	 *
+	 * @param wordBSTree the word BS tree
+	 */
 	public void printWordWithFileName(BSTree<Word> wordBSTree) {
 		Iterator<Word> it = wordBSTree.inorderIterator();
 
@@ -113,6 +138,11 @@ public class WordTreeManager {
 
 	}
 
+	/**
+	 * Prints the word with lines.
+	 *
+	 * @param wordBSTree the word BS tree
+	 */
 	public void printWordWithLines(BSTree<Word> wordBSTree) {
 		Iterator<Word> it = wordBSTree.inorderIterator();
 
@@ -124,6 +154,11 @@ public class WordTreeManager {
 
 	}
 
+	/**
+	 * Prints the word with frequency.
+	 *
+	 * @param wordBSTree the word BS tree
+	 */
 	public void printWordWithFrequency(BSTree<Word> wordBSTree) {
 		Iterator<Word> it = wordBSTree.inorderIterator();
 

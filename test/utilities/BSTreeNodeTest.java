@@ -11,15 +11,21 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Arcto
+ * The Class BSTreeNodeTest.
  *
+ * @author Arcto
  */
 class BSTreeNodeTest {
+	
+	/** The node. */
 	private BSTreeNode<String> node;
 
 	/**
-	 * @throws java.lang.Exception
+	 * Sets the up.
+	 *
+	 * @throws Exception the exception
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
@@ -27,7 +33,9 @@ class BSTreeNodeTest {
 	}
 
 	/**
-	 * @throws java.lang.Exception
+	 * Tear down.
+	 *
+	 * @throws Exception the exception
 	 */
 	@AfterEach
 	void tearDown() throws Exception {

@@ -1,14 +1,21 @@
 package managers;
 
 import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.*;
 
 import utilities.*;
 import utilities.Iterator;
 import problemdomain.*;
 
+/**
+ * The Class IOManager.
+ */
 public class IOManager {
-	private final String TREE_FILE_LOCATION = "res/respoitory.ser";
+
+	/** The tree file location. */
+	private final String TREE_FILE_LOCATION = "respoitory.ser";
 
 	/**
 	 * This method will return a scanner for a file entered by the user. When the
@@ -36,18 +43,21 @@ public class IOManager {
 	public boolean checkForTreeFile() {
 		File file = new File(TREE_FILE_LOCATION);
 		return file.exists();
+
 	}
 
 	/**
 	 * This method will save the binary search tree to a binary file named
 	 * repository.ser;
-	 * 
-	 * @param BSTree<String> tree to save to a repository
-	 * @throws IOException
+	 *
+	 * @param tree the tree
+	 * @throws IOException        Signals that an I/O exception has occurred.
+	 * @throws URISyntaxException
 	 */
 	public void saveTree(BSTree<Word> tree) throws IOException {
 		Iterator<Word> preOrderIt = tree.preorderIterator();
 		Iterator<Word> inOrderIt = tree.inorderIterator();
+
 		FileOutputStream fileOut = new FileOutputStream(TREE_FILE_LOCATION);
 		ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
 
@@ -70,70 +80,77 @@ public class IOManager {
 
 	/**
 	 * This method will generate a tree file from the repository.ser binary file
-	 * 
+	 *
 	 * @return BSTree<String> that contains the tree file.
-	 * @throws IOException
+	 * @throws URISyntaxException
 	 */
 	public BSTree<Word> getTree() {
 		FileInputStream fileIn;
 		ObjectInputStream objectIn;
-		
+
 		try {
 			fileIn = new FileInputStream(TREE_FILE_LOCATION);
 			objectIn = new ObjectInputStream(fileIn);
-			
+
 			ArrayList<Word> preOrderArrayList = preOrderGenerator(objectIn);
-			
+
 			ArrayList<Word> inOrderArrayList = inOrderGenerator(objectIn);
 
 			BSTree<Word> wordTree = rebuildTree(preOrderArrayList, inOrderArrayList);
-			
+
 			return wordTree;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 
+	/**
+	 * Rebuild tree.
+	 *
+	 * @param preOrderArrayList the pre order array list
+	 * @param inOrderArrayList  the in order array list
+	 * @return the BS tree
+	 */
 	private BSTree<Word> rebuildTree(ArrayList<Word> preOrderArrayList, ArrayList<Word> inOrderArrayList) {
 		Word rootElement = preOrderArrayList.get(0);
-		
+
 		BSTree<Word> tree = new BSTree<Word>(rootElement);
-		
+
 		int indexOfMid = inOrderArrayList.indexOf(rootElement);
-		
-		for(int i = indexOfMid; i > 1; i--) {
+
+		for (int i = indexOfMid; i > 1; i--) {
 			tree.add(preOrderArrayList.get(i));
 		}
-		
-		for(int i = indexOfMid + 1; i < inOrderArrayList.size(); i++) {
+
+		for (int i = indexOfMid + 1; i < inOrderArrayList.size(); i++) {
 			tree.add(preOrderArrayList.get(i));
 		}
-		
+
 		return tree;
 	}
 
 	/**
-	 * 
-	 * @param objectIn
-	 * @return
+	 * In order generator.
+	 *
+	 * @param objectIn the object in
+	 * @return the array list
 	 */
 	private ArrayList<Word> inOrderGenerator(ObjectInputStream objectIn) {
 		ArrayList<Word> preOrderArrayList = new ArrayList<>();
-		
+
 		try {
 			objectIn.read();
 		} catch (IOException e1) {
-			
+
 			e1.printStackTrace();
 		}
-		
-		
+
 		try {
-			
+
 			while (true) {
 				Word word = (Word) objectIn.readObject();
 				preOrderArrayList.add(word);
@@ -152,13 +169,14 @@ public class IOManager {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return preOrderArrayList;
 	}
-	
+
 	/**
 	 * Generates the preOrder tree list.
-	 * @param objectIn
+	 *
+	 * @param objectIn the object in
 	 * @return ArrayList<Word> containing the preOrderGenerator list;
 	 */
 	private ArrayList<Word> preOrderGenerator(ObjectInputStream objectIn) {
@@ -174,68 +192,84 @@ public class IOManager {
 				newLineNotFound = false;
 			}
 		}
-		
+
 		return preOrderArrayList;
 	}
 
+	/**
+	 * Prints the word with file name.
+	 *
+	 * @param wordBSTree     the word BS tree
+	 * @param outputFileName the output file name
+	 */
 	public void printWordWithFileName(BSTree<Word> wordBSTree, String outputFileName) {
 		try {
 			PrintWriter printWriter = new PrintWriter(new File(outputFileName));
-			
+
 			Iterator<Word> it = wordBSTree.inorderIterator();
 
 			while (it.hasNext()) {
 				Word word = it.next();
-				printWriter.write(
-						"Word: " + word.getStringWord() + ". First seen at file Location: " + word.getFileName() + ".");
+				printWriter.write("Word: " + word.getStringWord() + ". First seen at file Location: "
+						+ word.getFileName() + ".\n");
+
 			}
-			
+
 			printWriter.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 	}
 
+	/**
+	 * Prints the word with lines.
+	 *
+	 * @param wordBSTree     the word BS tree
+	 * @param outputFileName the output file name
+	 */
 	public void printWordWithLines(BSTree<Word> wordBSTree, String outputFileName) {
 		try {
 			PrintWriter printWriter = new PrintWriter(new File(outputFileName));
-			
+
 			Iterator<Word> it = wordBSTree.inorderIterator();
 
 			while (it.hasNext()) {
 				Word word = it.next();
-				printWriter.write("Word: " + word.getStringWord() + ". First Seen at line number " + word.getLineNumber()
-						+ ". First seen at file Location: " + word.getFileName() + ".");
+				printWriter.write("Word: " + word.getStringWord() + ". First Seen at line number "
+						+ word.getLineNumber() + ". First seen at file Location: " + word.getFileName() + ".\n");
 			}
-			
+
 			printWriter.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 	}
 
+	/**
+	 * Prints the word with frequency.
+	 *
+	 * @param wordBSTree     the word BS tree
+	 * @param outputFileName the output file name
+	 */
 	public void printWordWithFrequency(BSTree<Word> wordBSTree, String outputFileName) {
 		try {
 			PrintWriter printWriter = new PrintWriter(new File(outputFileName));
-			
+
 			Iterator<Word> it = wordBSTree.inorderIterator();
 
 			while (it.hasNext()) {
 				Word word = it.next();
-				printWriter.write("Word: " + word.getStringWord() + ". First Seen at line number " + word.getLineNumber()
-						+ ". Word Count: " + word.getWordCount() + ". First seen at file Location: " + word.getFileName()
-						+ ".\n");
+				printWriter.write("Word: " + word.getStringWord() + ". First Seen at line number "
+						+ word.getLineNumber() + ". Word Count: " + word.getWordCount()
+						+ ". First seen at file Location: " + word.getFileName() + ".\n");
 			}
-			
-			
+
 			printWriter.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 }

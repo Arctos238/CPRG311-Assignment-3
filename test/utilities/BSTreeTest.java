@@ -11,15 +11,21 @@ import org.junit.jupiter.api.Test;
 
 import exceptions.TreeException;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author J.Pointer
+ * The Class BSTreeTest.
  *
+ * @author J.Pointer
  */
 class BSTreeTest {
+	
+	/** The tree. */
 	BSTree<Integer> tree;
 
 	/**
-	 * @throws java.lang.Exception
+	 * Sets the up.
+	 *
+	 * @throws Exception the exception
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
@@ -27,7 +33,9 @@ class BSTreeTest {
 	}
 
 	/**
-	 * @throws java.lang.Exception
+	 * Tear down.
+	 *
+	 * @throws Exception the exception
 	 */
 	@AfterEach
 	void tearDown() throws Exception {
